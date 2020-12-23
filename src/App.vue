@@ -60,7 +60,7 @@
                 >
                   <v-list-item-content>
                     <v-list-item-title>
-                      Refresh
+                      Login
                     </v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
@@ -91,10 +91,11 @@
     },
     data: () => ({
       links: [
-        'Dashboard',
-        'Messages',
-        'Profile',
-        'Updates',
+        'Home',
+        'Servicios',
+        'Caso de Exito',
+        'Contacto',
+        'About'
       ],
     }),
   }
