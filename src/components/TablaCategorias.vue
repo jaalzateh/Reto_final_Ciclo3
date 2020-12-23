@@ -1,0 +1,242 @@
+<template>
+  <v-data-table
+    :headers="headers"
+    :items="categorias"
+    sort-by="id"
+    class="elevation-1"
+    :loading="cargando"
+    loading-text="Cargando... Por favor, espere"
+  >
+    <template v-slot:top>
+      <v-toolbar
+        flat
+      >
+        <v-toolbar-title>CATEGORIAS</v-toolbar-title>
+        <v-divider
+          class="mx-4"
+          inset
+          vertical
+        ></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog
+          v-model="dialog"
+          max-width="500px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              color="primary"
+              dark
+              class="mb-2"
+              v-bind="attrs"
+              v-on="on"
+            >
+              Agregar Categoría
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ formTitle }}</span>
+            </v-card-title>
+
+            <v-card-text>
+              <v-container>
+                <v-row>
+
+                    <v-text-field
+                      v-model="editedItem.nombre"
+                      label="Nombre categoria"
+                    ></v-text-field>
+
+                </v-row>
+                <v-row>
+                    <v-textarea
+                      v-model="editedItem.descripcion"
+                      label="Descripción"
+                      auto-grow
+                      counter="100"
+                    ></v-textarea>
+                </v-row>
+                
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="close"
+              >
+                Cancelar
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="save"
+              >
+                Guardar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="headline">¿Realmente desea cambiar el estado de la categoría?</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
+              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:[`item.actions`]="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editItem(item)"
+      >
+        mdi-pencil
+      </v-icon>
+      <v-icon
+        small
+        @click="deleteItem(item)"
+      >
+        mdi-delete
+      </v-icon>
+    </template>
+    <template v-slot:no-data>
+      <v-btn
+        color="primary"
+        @click="initialize"
+      >
+        Restaurar
+      </v-btn>
+    </template>
+  </v-data-table>
+</template>
+
+<script>
+  export default {
+    data: () => ({
+      dialog: false,
+      dialogDelete: false,
+      cargando : true,
+      headers: [
+        { text: 'ID', value: 'id'},
+        { text: 'Nombre', value: 'nombre' },
+        { text: 'Descripcion', value: 'descripcion' },
+        { text: 'Estado', value: 'estado' },
+        { text: 'Acciones', value: 'actions', sortable: false },
+      ],
+      categorias: [],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        id: 0,
+        nombre: 0,
+        descripcion: 0,
+        estado: 0,
+      },
+      defaultItem: {
+        name: '',
+        id: 0,
+        nombre: 0,
+        descripcion: 0,
+        estado: 0,
+      },
+    }),
+    computed: {
+      formTitle () {
+        return this.editedIndex === -1 ? 'Nueva Categoría' : 'Editar Categoría'
+      },
+    },
+    watch: {
+      dialog (val) {
+        val || this.close()
+      },
+      dialogDelete (val) {
+        val || this.closeDelete()
+      },
+    },
+    created () {
+      this.initialize()
+    },
+    methods: {
+      initialize () {
+        this.list()
+
+      },
+      list(){
+        this.$http.get('/api/categoria/list')
+          .then( (response) => {
+            this.categorias = response.data
+            this.cargando = false
+          })
+          .catch(error => {
+            return error
+          })
+          
+      },
+      editItem (item) {
+        this.editedIndex = this.categorias.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialog = true
+      },
+      deleteItem (item) {
+        this.editedIndex = this.categorias.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogDelete = true
+      },
+      async deleteItemConfirm () {
+        if (this.editedItem.estado === 1) {
+          await this.$http.put('/api/categoria/deactivate', {id: this.editedItem.id})
+        } else {
+          await this.$http.put('/api/categoria/activate', {id: this.editedItem.id})
+        }
+        this.list()
+        this.closeDelete()
+      },
+      close () {
+        this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      closeDelete () {
+        this.dialogDelete = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      async save () {
+        if (this.editedIndex > -1) {
+          Object.assign(this.categorias[this.editedIndex], this.editedItem)
+
+          let objetoBusqueda = {
+            nombre : this.editedItem.nombre,
+            descripcion : this.editedItem.descripcion,
+            id : this.editedItem.id,
+            estado: 1
+          }
+          await this.$http.put('/api/categoria/update', objetoBusqueda)
+
+        } else {
+          let objetoBusqueda = {
+            nombre : this.editedItem.nombre,
+            descripcion : this.editedItem.descripcion,
+            estado: 1
+          }
+          await this.$http.post('/api/categoria/add', objetoBusqueda)
+          this.categorias.push(this.editedItem)
+        }
+        this.list()
+        this.close()
+      },
+    },
+  }
+</script>
