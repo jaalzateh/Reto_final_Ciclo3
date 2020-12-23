@@ -9,12 +9,15 @@
         <v-avatar
           class="mr-10"
           color="grey darken-1"
-          size="32"
-        ></v-avatar>
+          size="50"
+        >
+        <a href="/home"><img src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png" alt="logo"></a>
+        </v-avatar>
 
         <v-btn
-          v-for="link in links"
+          v-for="([link, route]) in links"
           :key="link"
+          :to="route"
           text
         >
           {{ link }}
@@ -37,37 +40,6 @@
     <v-main class="grey lighten-3">
       <v-container>
         <v-row>
-          <v-col cols="2">
-            <v-sheet rounded="lg">
-              <v-list color="transparent">
-                <v-list-item
-                  v-for="n in 5"
-                  :key="n"
-                  link
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      List Item {{ n }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-divider class="my-2"></v-divider>
-
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      Login
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list>
-            </v-sheet>
-          </v-col>
-
           <v-col>
             <v-sheet
               min-height="70vh"
@@ -91,7 +63,6 @@
     },
     data: () => ({
       links: [
-        'Home',
         'Servicios',
         'Caso de Exito',
         'Contacto',
