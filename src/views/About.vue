@@ -1,3 +1,4 @@
+  
 <template>
   <div>
     <acerca-cmp />
@@ -6,7 +7,6 @@
 <script>
 import AcercaCmp from "../components/Acerca-Cmp.vue";
 // @ is an alias to /src
-
 export default {
   name: "About",
   components: {
