@@ -63,7 +63,8 @@
         ['Servicios', '/servicios'],
         ['Caso de Exito', '/casos'],
         ['Contacto', '/contacto'],
-        ['Sobre Nosotros', '/acerca']
+        ['Sobre Nosotros', '/acerca'],
+        ['Login', '/login']
       ],
     }),
   }
