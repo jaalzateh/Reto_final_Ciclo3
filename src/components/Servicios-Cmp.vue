@@ -3,120 +3,11 @@
     :headers="headers"
     :items="articulos"
     sort-by="id"
+    items-per-page="5"
     class="elevation-1"
     :loading="cargando"
     loading-text="Cargando... Por favor, espere"
   >
-    <template v-slot:top>
-      <v-toolbar
-        flat
-      >
-        <v-toolbar-title>ARTÍCULOS</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
-        <v-spacer></v-spacer>
-        <v-dialog
-          v-model="dialog"
-          max-width="500px"
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
-            >
-              Agregar Artículo
-            </v-btn>
-          </template>
-          <v-card>
-            <v-card-title>
-              <span class="headline">{{ formTitle }}</span>
-            </v-card-title>
-
-            <v-card-text>
-              <v-container>
-                <v-row>
-                    <v-text-field
-                      v-model="editedItem.nombre"
-                      label="Nombre artículo"
-                    ></v-text-field>
-                    <v-text-field
-                      v-model="editedItem.codigo"
-                      label="Código"
-                    ></v-text-field>
-                </v-row>
-                <v-row>
-                    <v-select
-                      v-model="editedItem.categoria"
-                      :items="categorias"
-                      item-text="nombre"
-                      item-value="id"
-                      label="Id de la Categoría"
-                      return-object
-                    ></v-select>
-                </v-row>
-                <v-row>
-                  <v-textarea
-                  v-model="editedItem.descripcion"
-                  label="Descripción">
-                  </v-textarea>
-                </v-row>
-                
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="close"
-              >
-                Cancelar
-              </v-btn>
-              <v-btn
-                color="blue darken-1"
-                text
-                @click="save"
-              >
-                Guardar
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-        <v-dialog v-model="dialogDelete" max-width="500px">
-          <v-card>
-            <v-card-title class="headline">¿Realmente desea cambiar el estado del artículo?</v-card-title>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
-              <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-              <v-spacer></v-spacer>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-toolbar>
-    </template>
-    <template v-slot:[`item.actions`]="{ item }">
-      <v-icon
-        small
-        class="mr-2"
-        @click="editItem(item)"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon
-        small
-        @click="deleteItem(item)"
-      >
-        mdi-delete
-      </v-icon>
-    </template>
     <template v-slot:no-data>
       <v-btn
         color="primary"
@@ -131,16 +22,15 @@
 <script>
   export default {
     data: () => ({
+
       dialog: false,
       dialogDelete: false,
       cargando : true,
       headers: [
         { text: 'ID', value: 'id' },
-        { text: 'Código', value: 'codigo' },
         { text: 'Nombre', value: 'nombre' },
-        { text: 'Estado', value: 'estado' },
+        { text: 'Descripcion', value: 'descripcion' },
         { text: 'Categoria', value: 'categoria.nombre' },
-        { text: 'Acciones', value: 'actions', sortable: false },
       ],
       articulos: [],
       categorias: [],
@@ -162,6 +52,7 @@
         codigo: 1000,
         nombre: "",
         categoria: "",
+        descripcion: "",
         estado: 0,
         categoria: {
           id: 0,
@@ -190,7 +81,6 @@
       initialize () {
         this.list()
         this.listCat()
-
       },
       list(){
         this.$http.get('/api/articulo/list')
