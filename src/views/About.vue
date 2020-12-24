@@ -1,5 +1,16 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
+  <div>
+    <acerca-cmp />
   </div>
 </template>
+<script>
+import AcercaCmp from "../components/Acerca-Cmp.vue";
+// @ is an alias to /src
+
+export default {
+  name: "About",
+  components: {
+    AcercaCmp,
+  },
+};
+</script>

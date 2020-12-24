@@ -14,12 +14,7 @@
         <a href="/"><img src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png" alt="logo"></a>
         </v-avatar>
 
-        <v-btn
-          v-for="([link, route]) in links"
-          :key="link"
-          :to="route"
-          text
-        >
+        <v-btn v-for="[link, route] in links" :key="link" :to="route" text>
           {{ link }}
         </v-btn>
 
@@ -31,7 +26,6 @@
         icon
         >LOGIN</v-btn>
         </div>
-        
       </v-container>
     </v-app-bar>
 
@@ -39,10 +33,7 @@
       <v-container>
         <v-row>
           <v-col>
-            <v-sheet
-              min-height="70vh"
-              rounded="lg"
-            >
+            <v-sheet min-height="70vh" rounded="lg">
               <!--  -->
               <router-view></router-view>
             </v-sheet>
@@ -50,16 +41,18 @@
         </v-row>
       </v-container>
     </v-main>
+    <about />
   </v-app>
 </template>
 
 <script>
-  export default {
-    name: 'App',
-    components: {
-      
-    },
-    data: () => ({
+import About from "./views/About.vue";
+export default {
+  name: "App",
+  components: {
+    About,
+  },
+  data: () => ({
       links: [
         ['Servicios', '/servicios'],
         ['Caso de Exito', '/casos'],
@@ -67,5 +60,5 @@
         ['Sobre Nosotros', '/acerca'],
       ],
     }),
-  }
+};
 </script>
