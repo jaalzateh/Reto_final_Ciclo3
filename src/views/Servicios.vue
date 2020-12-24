@@ -1,17 +1,14 @@
 <template>
-
-  <tabla-articulos></tabla-articulos>
-  
+  <servicios-cmp> </servicios-cmp>  
 </template>
 
 <script>
-// @ is an alias to /src
-import TablaArticulos from '../components/TablaArticulos.vue'
+import ServiciosCmp from '../components/Servicios-Cmp.vue'
 
 export default {
-  name: 'Articulos',
+  name: 'Servicios',
   components: {
-    TablaArticulos
+    ServiciosCmp
   }
 }
 </script>
