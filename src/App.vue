@@ -65,7 +65,6 @@
         ['Caso de Exito', '/casos'],
         ['Contacto', '/contacto'],
         ['Sobre Nosotros', '/acerca'],
-        ['Login', '/login']
       ],
     }),
   }

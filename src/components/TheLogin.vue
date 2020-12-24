@@ -56,7 +56,7 @@ export default {
                     localStorage.setItem('token', token)
                     localStorage.setItem('usuario', JSON.stringify(usuario))
                     swal("Bienvenido de nuevo!", "Ha ingresado correctamente", "success");
-                    this.$router.push('/home')
+                    this.$router.push('/admin/home')
                 }
                 }).catch((error) => {
                     swal ( "Oops" ,  "Something went wrong!" ,  "error" )
