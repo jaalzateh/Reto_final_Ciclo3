@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert';
 export default {
   name: 'App',
 
@@ -117,7 +118,8 @@ export default {
     drawer: null ,
     salirSesion(){
       localStorage.removeItem('token');
-      this.$router.push('/admin/home')
+      swal("Ha cerrado sesión con éxito!")
+      this.$router.push('/')
     },
     admins: [
         ['Usuarios', 'mdi-account-multiple-outline', 'usuarios'],
