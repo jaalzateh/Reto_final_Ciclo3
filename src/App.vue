@@ -11,7 +11,7 @@
           color="grey darken-1"
           size="50"
         >
-        <a href="/home"><img src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png" alt="logo"></a>
+        <a href="/"><img src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png" alt="logo"></a>
         </v-avatar>
 
         <v-btn
@@ -64,7 +64,8 @@
         ['Servicios', '/servicios'],
         ['Caso de Exito', '/casos'],
         ['Contacto', '/contacto'],
-        ['Sobre Nosotros', '/acerca']
+        ['Sobre Nosotros', '/acerca'],
+        ['Login', '/login']
       ],
     }),
   }
