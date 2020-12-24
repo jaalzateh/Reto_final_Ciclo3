@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import About from '../views/About.vue'
 import Carousel from '../views/Home.vue'
 
 Vue.use(VueRouter)
@@ -17,7 +16,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: () => import(/* webpackChunkName: "about" */ '../views/Home.vue'),
   },
   {
     path: '/admin',
@@ -30,6 +29,14 @@ const routes = [
       requiresAuth: true
     },
     children: [
+      {
+        path: 'home',
+        name: 'home',
+        // route level code-splitting
+        // this generates a separate chunk (about.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () => import(/* webpackChunkName: "about" */ '../views/HomeAdmin.vue'),
+      },
       {
         path: 'categorias',
         name: 'Categorias',

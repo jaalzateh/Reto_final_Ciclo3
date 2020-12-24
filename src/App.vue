@@ -1,13 +1,17 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="white" flat>
+    <v-app-bar
+      app
+      color="green lighten-2"
+      flat
+    >
       <v-container class="py-0 fill-height">
-        <v-avatar class="mr-10" color="grey darken-1" size="50">
-          <a href="/home"
-            ><img
-              src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png"
-              alt="logo"
-          /></a>
+        <v-avatar
+          class="mr-10"
+          color="grey darken-1"
+          size="50"
+        >
+        <a href="/"><img src="https://cdn.shopify.com/shopifycloud/hatchful-web/assets/6fcc76cfd1c59f44d43a485167fb3139.png" alt="logo"></a>
         </v-avatar>
 
         <v-btn v-for="[link, route] in links" :key="link" :to="route" text>
@@ -15,8 +19,13 @@
         </v-btn>
 
         <v-spacer></v-spacer>
-
-        <v-avatar class="mr-10" color="grey darken-1" size="30"> </v-avatar>
+        <div>
+          <v-btn
+        to="/login"
+        text
+        icon
+        >LOGIN</v-btn>
+        </div>
       </v-container>
     </v-app-bar>
 
@@ -44,13 +53,12 @@ export default {
     About,
   },
   data: () => ({
-    links: [
-      ["Servicios", "/servicios"],
-      ["Caso de Exito", "/casos"],
-      ["Contacto", "/contacto"],
-      ["Sobre Nosotros", "/acerca"],
-      ["Login", "/login"],
-    ],
-  }),
+      links: [
+        ['Servicios', '/servicios'],
+        ['Caso de Exito', '/casos'],
+        ['Contacto', '/contacto'],
+        ['Sobre Nosotros', '/acerca'],
+      ],
+    }),
 };
 </script>
