@@ -22,7 +22,12 @@
         placeholder="password"
       />
     </div>
-    <button @click="iniciarSesion()" type="button" class="btn btn-dark">Ingreso</button>
+    <v-btn
+      color="primary"
+      elevation="5"
+      rounded
+      @click="iniciarSesion()"
+    >Ingresar</v-btn>
   </div>
 </template>
 

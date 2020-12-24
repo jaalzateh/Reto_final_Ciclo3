@@ -1,5 +1,5 @@
 <template>
-  <v-carousel v-model="model">
+  <v-carousel>
     <v-carousel-item
       v-for="(item, i) in items"
       :key="i"

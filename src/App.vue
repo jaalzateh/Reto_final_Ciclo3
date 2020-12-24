@@ -2,7 +2,7 @@
   <v-app id="inspire">
     <v-app-bar
       app
-      color="white"
+      color="green lighten-2"
       flat
     >
       <v-container class="py-0 fill-height">
@@ -24,13 +24,14 @@
         </v-btn>
 
         <v-spacer></v-spacer>
-
-        <v-avatar
-          class="mr-10"
-          color="grey darken-1"
-          size="30"
-        >
-        </v-avatar>
+        <div>
+          <v-btn
+        to="/login"
+        text
+        icon
+        >LOGIN</v-btn>
+        </div>
+        
       </v-container>
     </v-app-bar>
 
