@@ -3,11 +3,13 @@
     <v-navigation-drawer
       v-model="drawer"
       app
+      color="teal lighten-3"
     >
       <!--  -->
       <v-card
     class="mx-auto"
     width="300"
+    color="teal lighten-4"
   >
     <v-list>
       <v-list-item
@@ -33,7 +35,7 @@
         prepend-icon="mdi-account-circle"
       >
         <template v-slot:activator>
-          <v-list-item-title>Users</v-list-item-title>
+          <v-list-item-title>Usuarios</v-list-item-title>
         </template>
 
         <v-list-group
@@ -67,7 +69,7 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title>Actions</v-list-item-title>
+              <v-list-item-title>Catálogos</v-list-item-title>
             </v-list-item-content>
           </template>
 
@@ -89,8 +91,9 @@
   </v-card>
     </v-navigation-drawer>
 
-    <v-app-bar app>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+    <v-app-bar app color="teal lighten-3">
+      <v-app-bar-nav-icon 
+      @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Mi Pagina de Control</v-toolbar-title>
     </v-app-bar>

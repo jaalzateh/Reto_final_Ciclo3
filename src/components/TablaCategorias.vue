@@ -79,13 +79,26 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
-            <v-card-title class="headline">¿Realmente desea cambiar el estado de la categoría?</v-card-title>
+            <v-card-title class="headline">¿Está seguro que desea eliminar?</v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="closeDelete">Cancelar</v-btn>
               <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
+        <v-dialog v-model="dialogChange" max-width="500px">
+          <v-card>
+            <v-card-title class="headline">¿Realmente desea cambiar el estado de la categoría?</v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="closeChange">Cancelar</v-btn>
+              <v-btn color="blue darken-1" text @click="changeItemConfirm">OK</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -101,6 +114,14 @@
         mdi-pencil
       </v-icon>
       <v-icon
+        class="mr-2"
+        small
+        @click="changeItem(item)"
+      >
+        mdi-clipboard-list-outline
+      </v-icon>
+      <v-icon
+        class="mr-2"
         small
         @click="deleteItem(item)"
       >
@@ -123,6 +144,7 @@
     data: () => ({
       dialog: false,
       dialogDelete: false,
+      dialogChange: false,
       cargando : true,
       headers: [
         { text: 'ID', value: 'id'},
@@ -185,22 +207,39 @@
         this.editedItem = Object.assign({}, item)
         this.dialog = true
       },
+      changeItem (item) {
+        this.editedIndex = this.categorias.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.dialogChange = true
+      },
       deleteItem (item) {
         this.editedIndex = this.categorias.indexOf(item)
         this.editedItem = Object.assign({}, item)
         this.dialogDelete = true
       },
-      async deleteItemConfirm () {
+      async changeItemConfirm () {
         if (this.editedItem.estado === 1) {
           await this.$http.put('/api/categoria/deactivate', {id: this.editedItem.id})
         } else {
           await this.$http.put('/api/categoria/activate', {id: this.editedItem.id})
         }
         this.list()
+        this.closeChange()
+      },
+      async deleteItemConfirm () {
+        await this.$http.put('/api/categoria/eliminate', {id: this.editedItem.id})
+        this.list()
         this.closeDelete()
       },
       close () {
         this.dialog = false
+        this.$nextTick(() => {
+          this.editedItem = Object.assign({}, this.defaultItem)
+          this.editedIndex = -1
+        })
+      },
+      closeChange () {
+        this.dialogChange = false
         this.$nextTick(() => {
           this.editedItem = Object.assign({}, this.defaultItem)
           this.editedIndex = -1
